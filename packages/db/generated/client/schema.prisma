@@ -6,8 +6,9 @@
 
 generator client {
   provider = "prisma-client-js"
-  output = "../generated/client"
+  output   = "../generated/client"
 }
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
@@ -21,18 +22,18 @@ model Email {
 }
 
 model Contact {
-  id        String    @id @default(dbgenerated("gen_random_uuid()"))
-  name      String
-  email     String
-  phone     String?
-  company   String?
-  website   String?
+  id              String    @id @default(dbgenerated("gen_random_uuid()"))
+  name            String
+  email           String
+  phone           String?
+  company         String?
+  website         String?
   monthlyVisitors Int?
-  message   String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @default(now()) @updatedAt
-  repliedAt DateTime?
-  status    String    @default("new") // new, replied, spam
+  message         String
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @default(now()) @updatedAt
+  repliedAt       DateTime?
+  status          String    @default("new") // new, replied, spam
 
   @@map("contacts")
 }
@@ -40,32 +41,32 @@ model Contact {
 // Authentication models
 
 model User {
-  id            String          @id @default(dbgenerated("gen_random_uuid()"))
-  email         String          @unique
+  id            String     @id @default(dbgenerated("gen_random_uuid()"))
+  email         String     @unique
   firstName     String?
   lastName      String?
   image         String?
   emailVerified DateTime?
   name          String? // Computed field for display purposes
-  status        UserStatus      @default(ACTIVE)
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @default(now()) @updatedAt
+  status        UserStatus @default(ACTIVE)
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @default(now()) @updatedAt
   deletedAt     DateTime?
-  
+
   // Relations
   organizations Organization[]  @relation("organizationCreatedBy")
-  subscriptions Organization[] @relation(name: "subscriptionCreatedBy")
+  subscriptions Organization[]  @relation(name: "subscriptionCreatedBy")
   memberships   Member[]
   invitesSent   Member[]        @relation("invitedBy")
   projectAccess ProjectAccess[]
   posts         Post[]
   role          Role            @default(USER)
   websites      Website[]
-  
+
   // Authentication relations - preserved as requested
-  sessions      Session[]
-  accounts      Account[]
-  invites       Invite[]
+  sessions Session[]
+  accounts Account[]
+  invites  Invite[]
 
   @@map("user")
 }
@@ -114,21 +115,21 @@ enum Role {
 // Blog models
 
 model Post {
-  id        String    @id @default(uuid())
-  title     String
-  slug      String    @unique
-  content   String
-  excerpt   String?
-  published Boolean   @default(false)
-  authorId  String
-  coverImage String?
-  author    User      @relation(fields: [authorId], references: [id])
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @default(now()) @updatedAt
+  id          String    @id @default(uuid())
+  title       String
+  slug        String    @unique
+  content     String
+  excerpt     String?
+  published   Boolean   @default(false)
+  authorId    String
+  coverImage  String?
+  author      User      @relation(fields: [authorId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now()) @updatedAt
   publishedAt DateTime?
-  categoryId String?
-  category  Category? @relation(fields: [categoryId], references: [id])
-  tags      Tag[]
+  categoryId  String?
+  category    Category? @relation(fields: [categoryId], references: [id])
+  tags        Tag[]
 
   @@index([authorId])
   @@index([categoryId])
@@ -193,17 +194,17 @@ model JobListing {
 }
 
 model JobApplication {
-  id           String     @id @default(uuid())
+  id           String            @id @default(uuid())
   jobListingId String
-  jobListing   JobListing @relation(fields: [jobListingId], references: [id])
+  jobListing   JobListing        @relation(fields: [jobListingId], references: [id])
   name         String
   email        String
   phone        String?
   resume       String?
   coverLetter  String?
   status       ApplicationStatus @default(NEW)
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @default(now()) @updatedAt
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @default(now()) @updatedAt
   reviewedAt   DateTime?
 
   @@index([jobListingId])
@@ -342,61 +343,60 @@ enum AccessLevel {
 }
 
 model ProjectAccess {
-  id        String      @id @default(uuid())
-  projectId String
-  project   Project     @relation(fields: [projectId], references: [id])
-  userId    String
-  user      User        @relation(fields: [userId], references: [id])
-  level     AccessLevel @default(VIEWER)
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @default(now()) @updatedAt
+  id           String         @id @default(uuid())
+  projectId    String
+  project      Project        @relation(fields: [projectId], references: [id])
+  userId       String
+  user         User           @relation(fields: [userId], references: [id])
+  level        AccessLevel    @default(VIEWER)
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @default(now()) @updatedAt
+  Organization Organization[]
 
   @@unique([projectId, userId])
   @@index([projectId])
   @@index([userId])
   @@map("project_access")
-  Organization Organization[]
 }
 
 model Invite {
-  id             String       @id @default(uuid())
+  id             String        @id @default(uuid())
   email          String
   organizationId String
-  role           Role         @default(VIEWER)
-  token          String       @unique
+  role           Role          @default(VIEWER)
+  token          String        @unique
   expires        DateTime
   createdById    String
-  createdBy      User         @relation(fields: [createdById], references: [id])
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @default(now()) @updatedAt
+  createdBy      User          @relation(fields: [createdById], references: [id])
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @default(now()) @updatedAt
   acceptedAt     DateTime?
-  Organization Organization?  @relation(fields: [organizationId], references: [id])
-
+  Organization   Organization? @relation(fields: [organizationId], references: [id])
 
   @@index([createdById])
   @@map("invites")
 }
 
 model Project {
-  id             String          @id @default(uuid())
+  id             String       @id @default(uuid())
   name           String
   slug           String
   description    String?
-  type           ProjectType     @default(WEBSITE)
+  type           ProjectType  @default(WEBSITE)
   organizationId String
-  organization   Organization    @relation(fields: [organizationId], references: [id])
+  organization   Organization @relation(fields: [organizationId], references: [id])
   clientId       String?
-  client         Client?         @relation(fields: [clientId], references: [id])
+  client         Client?      @relation(fields: [clientId], references: [id])
   startDate      DateTime?
   endDate        DateTime?
-  status         String          @default("active") // active, completed, on-hold, cancelled
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime        @default(now()) @updatedAt
+  status         String       @default("active") // active, completed, on-hold, cancelled
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @default(now()) @updatedAt
   deletedAt      DateTime?
-  
+
   // Relations
-  access         ProjectAccess[]
-  events         EventMeta[]
+  access ProjectAccess[]
+  events EventMeta[]
 
   @@unique([organizationId, slug])
   @@index([organizationId])
@@ -419,16 +419,16 @@ model EventMeta {
 }
 
 model Client {
-  id             String     @id @default(uuid())
+  id             String       @id @default(uuid())
   name           String
   email          String?
   phone          String?
-  type           ClientType @default(COMPANY)
+  type           ClientType   @default(COMPANY)
   organizationId String
   organization   Organization @relation(fields: [organizationId], references: [id])
   projects       Project[]
-  createdAt      DateTime   @default(now())
-  updatedAt      DateTime   @default(now()) @updatedAt
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @default(now()) @updatedAt
 
   @@index([organizationId])
   @@map("clients")
