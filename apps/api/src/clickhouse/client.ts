@@ -141,16 +141,14 @@ class CustomLogger implements Logger {
     const response = {
       ...json,
       data: json.data.map((item) => {
-        return keys.reduce((acc, key) => {
+        return keys.reduce((acc: Partial<T>, key) => {
           const meta = json.meta?.find((m) => m.name === key);
-          return {
-            ...acc,
-            [key]:
-              item[key] && meta?.type.includes('Int')
-                ? Number.parseFloat(item[key] as string)
-                : item[key],
-          };
-        }, {} as T);
+          const value = item[key] && meta?.type.includes('Int')
+            ? Number.parseFloat(item[key] as string)
+            : item[key];
+          acc[key as keyof T] = value as T[keyof T];
+          return acc;
+        }, {} as T) as T;
       }),
     };
   

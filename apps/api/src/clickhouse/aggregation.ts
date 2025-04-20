@@ -24,7 +24,7 @@ export async function aggregateDailyStats(
   clientId: string,
   startDate: string,
   endDate: string,
-  force: boolean = false
+  force = false
 ) {
   try {
     logger.info(`Aggregating daily stats for ${clientId} from ${startDate} to ${endDate}`);
@@ -123,7 +123,7 @@ export async function aggregatePageStats(
   clientId: string,
   startDate: string,
   endDate: string,
-  force: boolean = false
+  force = false
 ) {
   try {
     logger.info(`Aggregating page stats for ${clientId} from ${startDate} to ${endDate}`);
@@ -195,7 +195,7 @@ export async function aggregateReferrerStats(
   clientId: string,
   startDate: string,
   endDate: string,
-  force: boolean = false
+  force = false
 ) {
   try {
     logger.info(`Aggregating referrer stats for ${clientId} from ${startDate} to ${endDate}`);
@@ -268,7 +268,7 @@ export async function aggregateAllStats(
   clientId: string,
   startDate?: string,
   endDate?: string,
-  force: boolean = false
+  force = false
 ) {
   try {
     // Set default date range if not provided
@@ -324,7 +324,7 @@ export async function aggregateAllStats(
  */
 export async function aggregateMissingDates(
   clientId: string, 
-  lookbackDays: number = 30
+  lookbackDays = 30
 ) {
   try {
     const now = new Date();
