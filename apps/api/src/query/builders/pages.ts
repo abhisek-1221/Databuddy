@@ -14,7 +14,7 @@ export const PagesBuilders: Record<string, SimpleQueryConfig> = {
 		groupBy: [
 			"decodeURLComponent(CASE WHEN trimRight(path(path), '/') = '' THEN '/' ELSE trimRight(path(path), '/') END)",
 		],
-		orderBy: 'pageviews DESC',
+		orderBy: 'visitors DESC',
 		limit: 100,
 		timeField: 'time',
 		allowedFilters: [
@@ -173,7 +173,7 @@ export const PagesBuilders: Record<string, SimpleQueryConfig> = {
             FROM session_entry
             WHERE page_rank = 1
             GROUP BY entry_page
-            ORDER BY pageviews DESC
+            ORDER BY visitors DESC
             LIMIT {limit:Int32} OFFSET {offset:Int32}`
 					: `
             WITH ${sessionEntryQuery}
@@ -185,7 +185,7 @@ export const PagesBuilders: Record<string, SimpleQueryConfig> = {
             FROM session_entry
             WHERE page_rank = 1
             GROUP BY entry_page
-            ORDER BY pageviews DESC
+            ORDER BY visitors DESC
             LIMIT {limit:Int32} OFFSET {offset:Int32}
             `,
 				params: {
@@ -301,7 +301,7 @@ export const PagesBuilders: Record<string, SimpleQueryConfig> = {
                 ROUND((COUNT(DISTINCT anonymous_id) / SUM(COUNT(DISTINCT anonymous_id)) OVER()) * 100, 2) as percentage
             FROM exit_pages
             GROUP BY path
-            ORDER BY pageviews DESC
+            ORDER BY visitors DESC
             LIMIT {limit:Int32} OFFSET {offset:Int32}
             `,
 				params: {
@@ -328,7 +328,7 @@ export const PagesBuilders: Record<string, SimpleQueryConfig> = {
 		groupBy: [
 			"decodeURLComponent(CASE WHEN trimRight(path(path), '/') = '' THEN '/' ELSE trimRight(path(path), '/') END)",
 		],
-		orderBy: 'pageviews DESC',
+		orderBy: 'visitors DESC',
 		limit: 100,
 		timeField: 'time',
 		allowedFilters: [

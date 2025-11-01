@@ -62,7 +62,7 @@ export const TrafficBuilders: Record<string, SimpleQueryConfig> = {
 			"domain(referrer) NOT IN ('localhost', '127.0.0.1')",
 		],
 		groupBy: ['name'],
-		orderBy: 'pageviews DESC',
+		orderBy: 'visitors DESC',
 		limit: 100,
 		timeField: 'time',
 		allowedFilters: [
@@ -130,7 +130,7 @@ export const TrafficBuilders: Record<string, SimpleQueryConfig> = {
 		],
 		where: ["utm_source != ''", "event_name = 'screen_view'"],
 		groupBy: ['utm_source'],
-		orderBy: 'pageviews DESC',
+		orderBy: 'visitors DESC',
 		limit: 100,
 		timeField: 'time',
 		allowedFilters: [
@@ -160,7 +160,7 @@ export const TrafficBuilders: Record<string, SimpleQueryConfig> = {
 		],
 		where: ["utm_medium != ''", "event_name = 'screen_view'"],
 		groupBy: ['utm_medium'],
-		orderBy: 'pageviews DESC',
+		orderBy: 'visitors DESC',
 		limit: 100,
 		timeField: 'time',
 		allowedFilters: [
@@ -227,7 +227,7 @@ export const TrafficBuilders: Record<string, SimpleQueryConfig> = {
 		],
 		where: ["utm_campaign != ''", "event_name = 'screen_view'"],
 		groupBy: ['utm_campaign'],
-		orderBy: 'pageviews DESC',
+		orderBy: 'visitors DESC',
 		limit: 100,
 		timeField: 'time',
 		allowedFilters: [
@@ -298,7 +298,7 @@ export const TrafficBuilders: Record<string, SimpleQueryConfig> = {
 			"event_name = 'screen_view'",
 		],
 		groupBy: ['utm_term'],
-		orderBy: 'pageviews DESC',
+		orderBy: 'visitors DESC',
 		limit: 100,
 		timeField: 'time',
 		allowedFilters: [
@@ -367,7 +367,7 @@ export const TrafficBuilders: Record<string, SimpleQueryConfig> = {
 			"event_name = 'screen_view'",
 		],
 		groupBy: ['utm_content'],
-		orderBy: 'pageviews DESC',
+		orderBy: 'visitors DESC',
 		limit: 100,
 		timeField: 'time',
 		allowedFilters: [
@@ -401,7 +401,7 @@ export const TrafficBuilders: Record<string, SimpleQueryConfig> = {
 		],
 		where: ["event_name = 'screen_view'"],
 		groupBy: ['source'],
-		orderBy: 'pageviews DESC',
+		orderBy: 'visitors DESC',
 		limit: 100,
 		timeField: 'time',
 		customizable: true,

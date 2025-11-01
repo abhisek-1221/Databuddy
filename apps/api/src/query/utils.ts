@@ -153,13 +153,18 @@ export function deduplicateGeoRows(rows: DataRow[]): DataRow[] {
 	for (const row of aggregated.values()) {
 		totalVisitors += getNumber(row.visitors);
 	}
-	for (const row of aggregated.values()) {
+	const result = Array.from(aggregated.values());
+	for (const row of result) {
 		row.percentage =
 			totalVisitors > 0
-				? Math.round((getNumber(row.visitors) / totalVisitors) * 100)
+				? Math.round((getNumber(row.visitors) / totalVisitors) * 10_000) / 100
 				: 0;
 	}
-	return Array.from(aggregated.values());
+	return result.sort((a, b) => {
+		const visitorsA = getNumber(a.visitors);
+		const visitorsB = getNumber(b.visitors);
+		return visitorsB - visitorsA;
+	});
 }
 
 function shouldApplyReferrerParsing(config: SimpleQueryConfig): boolean {
