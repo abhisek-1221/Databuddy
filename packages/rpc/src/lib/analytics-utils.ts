@@ -344,9 +344,7 @@ type AllowedField =
 	| "country"
 	| "city"
 	| "device_type"
-	| "browser"
 	| "browser_name"
-	| "os"
 	| "os_name"
 	| "screen_resolution"
 	| "language"
@@ -381,9 +379,7 @@ const ALLOWED_FIELDS: readonly AllowedField[] = [
 	"country",
 	"city",
 	"device_type",
-	"browser",
 	"browser_name",
-	"os",
 	"os_name",
 	"screen_resolution",
 	"language",

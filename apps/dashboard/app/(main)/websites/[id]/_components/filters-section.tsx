@@ -228,7 +228,7 @@ export function FiltersSection() {
 	return (
 		<div className="slide-in-from-top-2 animate-in overflow-hidden border-b bg-card duration-300">
 			{editingFilter && (
-				<div className="border-amber-200/50 border-b bg-gradient-to-r from-amber-50/80 to-amber-50/40 px-2 py-2 text-amber-900 text-xs sm:px-4 sm:py-3 sm:text-sm">
+				<div className="border-amber-200/50 border-b bg-linear-to-r from-amber-50/80 to-amber-50/40 px-2 py-2 text-amber-900 text-xs sm:px-4 sm:py-3 sm:text-sm">
 					<div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-0">
 						<div className="flex flex-col gap-1.5 sm:flex-row sm:items-center sm:gap-3">
 							<div className="flex items-center gap-2">
