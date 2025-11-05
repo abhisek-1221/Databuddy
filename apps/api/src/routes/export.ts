@@ -7,19 +7,9 @@ import { Elysia, t } from "elysia";
 import { type ExportRequest, processExport } from "../lib/export";
 import { logger } from "../lib/logger";
 
-import { createRateLimitMiddleware } from "../middleware/rate-limit";
 
 dayjs.extend(utc);
 
-const _exportRateLimit = createRateLimitMiddleware({
-	type: "expensive",
-	identifier: "export",
-	customConfig: {
-		requests: 10,
-		window: "1m",
-	},
-	skipAuth: false,
-});
 
 const getWebsiteById = cacheable(
 	async (id: string) => {
@@ -90,7 +80,6 @@ async function authorizeWebsiteAccess(
 }
 
 export const exportRoute = new Elysia({ prefix: "/v1/export" })
-	// .use(exportRateLimit)
 	.post(
 		"/data",
 		async ({ body, request }) => {

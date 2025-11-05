@@ -1,6 +1,12 @@
 "use client";
 
-import { CheckIcon, DownloadIcon } from "@phosphor-icons/react";
+import {
+	CheckIcon,
+	DownloadIcon,
+	FileCodeIcon,
+	TableIcon,
+	FileTextIcon,
+} from "@phosphor-icons/react";
 import dayjs from "dayjs";
 import { useParams } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
@@ -36,19 +42,19 @@ export default function ExportPage() {
 				value: "json" as const,
 				label: "JSON",
 				description: "Structured data for developers",
-				icon: "📄",
+				icon: FileCodeIcon,
 			},
 			{
 				value: "csv" as const,
 				label: "CSV",
 				description: "Works with spreadsheets",
-				icon: "📊",
+				icon: TableIcon,
 			},
 			{
 				value: "txt" as const,
 				label: "TXT",
 				description: "Plain text export",
-				icon: "📝",
+				icon: FileTextIcon,
 			},
 		],
 		[]
@@ -129,8 +135,8 @@ export default function ExportPage() {
 									onClick={() => setSelectedFormat(format.value)}
 									type="button"
 								>
-									<div className="flex h-8 w-8 items-center justify-center rounded-md bg-muted text-lg">
-										{format.icon}
+									<div className="flex h-8 w-8 items-center justify-center rounded-md bg-muted">
+										<format.icon className="h-5 w-5" />
 									</div>
 									<div className="min-w-0 flex-1">
 										<div className="mb-1 flex items-center gap-2">
