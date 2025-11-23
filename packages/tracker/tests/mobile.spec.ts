@@ -1,8 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 test.describe("Mobile Tracking", () => {
-	// Skip these tests on non-mobile projects
-	test.beforeEach(async ({ }, testInfo) => {
+	test.beforeEach((_, testInfo) => {
 		if (!testInfo.project.name.includes("mobile")) {
 			test.skip();
 		}

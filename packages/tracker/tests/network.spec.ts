@@ -17,6 +17,9 @@ test.describe("Network & Batching", () => {
 
 		await page.goto("/test");
 		await page.evaluate(() => {
+			// Disable beacon to force fetch usage, which supports retries
+			navigator.sendBeacon = () => false;
+
 			(window as any).databuddyConfig = {
 				clientId: "test-retry",
 				ignoreBotDetection: true,
