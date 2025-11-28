@@ -9,7 +9,7 @@ on:
 jobs:
   test:
     name: Run Tests
-    runs-on: blacksmith-4vcpu-ubuntu-2404
+    runs-on: ubuntu-latest
     
     services:
       postgres:
@@ -21,7 +21,7 @@ jobs:
         ports:
           - 5432:5432
         options: >-
-          --health-cmd pg_isready
+          --health-cmd "pg_isready -U postgres -d databuddy_test"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5

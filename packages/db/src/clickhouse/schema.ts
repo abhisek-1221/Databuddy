@@ -162,7 +162,6 @@ SETTINGS index_granularity = 8192
  */
 const CREATE_WEB_VITALS_SPANS_TABLE = `
 CREATE TABLE IF NOT EXISTS ${ANALYTICS_DATABASE}.web_vitals_spans (
-  id UUID CODEC(ZSTD(1)),
   client_id String CODEC(ZSTD(1)),
   session_id String CODEC(ZSTD(1)),
   
@@ -447,7 +446,6 @@ export type WebVitalMetricName =
 	| "TTFB";
 
 export type WebVitalsSpan = {
-	id: string;
 	client_id: string;
 	session_id: string;
 	timestamp: number;
