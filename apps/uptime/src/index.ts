@@ -1,6 +1,5 @@
 import { Receiver } from "@upstash/qstash";
-import Elysia from "elysia";
-import { z } from "zod";
+import { Elysia, t } from "elysia";
 import { checkUptime, lookupSchedule } from "./actions";
 import { sendUptimeEvent } from "./lib/producer";
 import {
@@ -85,13 +84,13 @@ const app = new Elysia()
 	.get("/health", () => ({ status: "ok" }))
 	.post("/", async ({ headers, body }) => {
 		try {
-			const headerSchema = z.object({
-				"upstash-signature": z.string(),
-				"x-schedule-id": z.string(),
-				"x-max-retries": z.string().optional(),
+			const headerSchema = t.Object({
+				"upstash-signature": t.String(),
+				"x-schedule-id": t.String(),
+				"x-max-retries": t.String().optional(),
 			});
 
-			const parsed = headerSchema.safeParse(headers);
+			const parsed = headerSchema.parse(headers);
 			if (!parsed.success) {
 				return new Response("Missing required headers", { status: 400 });
 			}

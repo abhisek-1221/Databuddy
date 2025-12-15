@@ -16,7 +16,7 @@ type ProducerConfig = {
 class UptimeProducer {
     private producer: Producer | null = null;
     private connected = false;
-    private config: ProducerConfig;
+    private readonly config: ProducerConfig;
 
     constructor(config: ProducerConfig) {
         this.config = config;
@@ -49,7 +49,7 @@ class UptimeProducer {
             this.producer = kafka.producer({
                 maxInFlightRequests: 1,
                 idempotent: true,
-                transactionTimeout: 30000,
+                transactionTimeout: 30_000,
             });
 
             await this.producer.connect();
@@ -64,7 +64,7 @@ class UptimeProducer {
 
     async send(topic: string, event: unknown, key?: string): Promise<void> {
         try {
-            if (!(await this.connect()) || !this.producer) {
+            if (!((await this.connect()) && this.producer)) {
                 console.error("Failed to connect to Redpanda, event not sent");
                 return;
             }
@@ -113,12 +113,8 @@ function getDefaultProducer(): UptimeProducer {
     return defaultProducer;
 }
 
-export const sendUptimeEvent = (
-    event: unknown,
-    key?: string
-): Promise<void> => {
-    return getDefaultProducer().send("analytics-uptime-checks", event, key);
-};
+export const sendUptimeEvent = (event: unknown, key?: string): Promise<void> =>
+    getDefaultProducer().send("analytics-uptime-checks", event, key);
 
 // Graceful shutdown
 process.on("SIGTERM", async () => {
@@ -132,4 +128,3 @@ process.on("SIGINT", async () => {
         await defaultProducer.disconnect();
     }
 });
-
