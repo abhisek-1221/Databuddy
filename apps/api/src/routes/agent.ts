@@ -53,7 +53,6 @@ function toUIMessage(msg: IncomingMessage): UIMessage {
 		};
 	}
 
-	// Extract text from content or text field
 	const text = msg.content ?? msg.text ?? "";
 
 	return {

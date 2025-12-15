@@ -1,6 +1,12 @@
 import { Agent } from "@ai-sdk-tools/agents";
 import type { AppContext } from "./config/context";
 
+import {
+	extendedMemoryConfig,
+	maxMemoryConfig,
+	minimalMemoryConfig,
+	standardMemoryConfig,
+} from "./config/memory";
 import { models } from "./config/models";
 import { buildAnalyticsInstructions } from "./prompts/analytics";
 import { buildReflectionInstructions } from "./prompts/reflection";
@@ -66,6 +72,7 @@ export function createAnalyticsAgent(
 		temperature: 0.3,
 		instructions: buildAnalyticsInstructions,
 		tools,
+		memory: standardMemoryConfig,
 		modelSettings: {
 			failureMode: {
 				maxAttempts: 2,
@@ -94,14 +101,17 @@ export const createReflectionAgent = (
 		standard: {
 			model: models.advanced,
 			maxTurns: 15,
+			memory: extendedMemoryConfig, // 30 messages for Sonnet
 		},
 		haiku: {
 			model: models.analytics,
 			maxTurns: 15,
+			memory: standardMemoryConfig, // 20 messages for Haiku
 		},
 		max: {
 			model: models.advanced,
 			maxTurns: 20,
+			memory: maxMemoryConfig, // 40 messages for deep investigations
 		},
 	}[variant];
 
@@ -139,6 +149,7 @@ export function createTriageAgent(
 		model: models.triage,
 		temperature: 0.1,
 		instructions: buildTriageInstructions,
+		memory: minimalMemoryConfig,
 		modelSettings: {
 			toolChoice: {
 				type: "tool",
